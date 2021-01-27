@@ -3,6 +3,7 @@ import "./App.css";
 
 import Selections from "./components/Selections";
 import Header from "./components/Header";
+import Randomizer from "./components/Randomizer";
 
 export default class App extends Component {
   state = {
@@ -16,6 +17,7 @@ export default class App extends Component {
     ],
     selected: [],
     errorMessage: "",
+    beginButtonClicked: false,
   };
 
   setErrorMessage = (msg) => {
@@ -49,10 +51,27 @@ export default class App extends Component {
     });
   };
 
+  resetOptions = () => {
+    this.setState(() => {
+      const newState = {
+        selected: [],
+        errorMessage: "",
+        beginButtonClicked: false,
+      };
+      return newState;
+    });
+  };
+
   handleBegin = () => {
     if (this.state.selected.length > 1) {
       this.setErrorMessage("");
-      // navigation.navigate("Randomizer", { options: selected });
+      this.setState(() => {
+        let newState = {
+          beginButtonClicked: true,
+        };
+        return newState;
+      });
+      console.log(this.state.beginButtonClicked);
     } else {
       this.setErrorMessage("You need at least two options to pick from!");
     }
@@ -62,14 +81,25 @@ export default class App extends Component {
     return (
       <div className="App">
         <Header />
-        <Selections
-          addToSelected={this.addToSelected}
-          removeFromSelected={this.removeFromSelected}
-          options={this.state.options}
-          selected={this.state.selected}
-        />
-        <p className="errorMsg">{this.state.errorMessage}</p>
-        <button onClick={() => this.handleBegin()}>Begin</button>
+        {!this.state.beginButtonClicked ? (
+          <>
+            <Selections
+              addToSelected={this.addToSelected}
+              removeFromSelected={this.removeFromSelected}
+              options={this.state.options}
+              selected={this.state.selected}
+            />
+            <p className="errorMsg">{this.state.errorMessage}</p>
+            <button onClick={() => this.handleBegin()}>Begin</button>
+          </>
+        ) : (
+          <>
+            <Randomizer
+              options={this.state.selected}
+              resetOptions={this.resetOptions}
+            />
+          </>
+        )}
       </div>
     );
   }

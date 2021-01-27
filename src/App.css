@@ -97,3 +97,24 @@ button {
   padding: 5px;
   margin-bottom: 5%;
 }
+
+.winner {
+  font-size: 40px;
+  color: yellow;
+}
+
+.results-buttons {
+  display: flex;
+  min-width: 50%;
+  margin: 30px auto;
+}
+
+.home-button {
+  display: flex;
+  font-size: 25px;
+  border-radius: 18px;
+  background-color: rgba(53, 45, 45, 0.836);
+  border: thin;
+  margin: 20px auto;
+  padding: 8px;
+}
