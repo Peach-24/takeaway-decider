@@ -18,6 +18,15 @@ export default class App extends Component {
     errorMessage: "",
   };
 
+  setErrorMessage = (msg) => {
+    this.setState(() => {
+      const newState = {
+        errorMessage: msg,
+      };
+      return newState;
+    });
+  };
+
   addToSelected = (item) => {
     this.setState(() => {
       const newState = {
@@ -40,20 +49,27 @@ export default class App extends Component {
     });
   };
 
+  handleBegin = () => {
+    if (this.state.selected.length > 1) {
+      this.setErrorMessage("");
+      // navigation.navigate("Randomizer", { options: selected });
+    } else {
+      this.setErrorMessage("You need at least two options to pick from!");
+    }
+  };
+
   render() {
     return (
       <div className="App">
         <Header />
-
         <Selections
           addToSelected={this.addToSelected}
           removeFromSelected={this.removeFromSelected}
           options={this.state.options}
           selected={this.state.selected}
         />
-
-        <p>{this.state.errorMessage}</p>
-        <button>Begin</button>
+        <p className="errorMsg">{this.state.errorMessage}</p>
+        <button onClick={() => this.handleBegin()}>Begin</button>
       </div>
     );
   }

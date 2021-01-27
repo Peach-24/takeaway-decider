@@ -33,8 +33,12 @@ export default function Selections(props) {
 
   return (
     <div className="App">
-      <FoodOptions food={options} id="options-box" />
+      <div id="options">
+        <p className="selectionTitles">Options</p>
+        <FoodOptions food={options} />
+      </div>
       <div id="selected">
+        <p className="selectionTitles">Selected</p>
         <SelectedOptions food={selected} />
       </div>
     </div>
