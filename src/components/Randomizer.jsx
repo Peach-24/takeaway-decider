@@ -13,6 +13,7 @@ export default function Randomizer(props) {
   };
 
   const resetOptions = props.resetOptions;
+  const goToMap = props.goToMap;
 
   useEffect(() => {
     setOptions(props.options);
@@ -33,17 +34,19 @@ export default function Randomizer(props) {
       <h1>Winner:</h1>
       <p className="winner">{winner}</p>
       <div>
-        <button className="results-buttons">
+        <button className="results-buttons" onClick={() => goToMap(winner)}>
           <p>
-            Discover local <strong>{winner.slice(0, winner.length - 3)}</strong>{" "}
+            Discover local <strong>{winner.slice(0, winner.length - 4)}</strong>{" "}
             takeaways
           </p>
         </button>
 
         {spinsLeft === 0 ? (
-          <button disabled>Spin again ({spinsLeft})</button>
+          <button className="results-buttons" disabled>
+            Spin again ({spinsLeft})
+          </button>
         ) : (
-          <button onClick={() => handleReSpin()}>
+          <button className="results-buttons" onClick={() => handleReSpin()}>
             Spin again ({spinsLeft})
           </button>
         )}

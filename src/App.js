@@ -4,6 +4,7 @@ import "./App.css";
 import Selections from "./components/Selections";
 import Header from "./components/Header";
 import Randomizer from "./components/Randomizer";
+import ResultsMap from "./components/ResultsMap";
 
 export default class App extends Component {
   state = {
@@ -18,6 +19,7 @@ export default class App extends Component {
     selected: [],
     errorMessage: "",
     beginButtonClicked: false,
+    visitMap: false,
   };
 
   setErrorMessage = (msg) => {
@@ -28,7 +30,6 @@ export default class App extends Component {
       return newState;
     });
   };
-
   addToSelected = (item) => {
     this.setState(() => {
       const newState = {
@@ -38,7 +39,6 @@ export default class App extends Component {
       return newState;
     });
   };
-
   removeFromSelected = (item) => {
     this.setState(() => {
       let newArr = this.state.selected.filter(
@@ -50,18 +50,17 @@ export default class App extends Component {
       return newState;
     });
   };
-
   resetOptions = () => {
     this.setState(() => {
       const newState = {
         selected: [],
         errorMessage: "",
         beginButtonClicked: false,
+        visitMap: false,
       };
       return newState;
     });
   };
-
   handleBegin = () => {
     if (this.state.selected.length > 1) {
       this.setErrorMessage("");
@@ -76,12 +75,28 @@ export default class App extends Component {
       this.setErrorMessage("You need at least two options to pick from!");
     }
   };
+  goToMap = (cuisine) => {
+    this.setState(() => {
+      const newState = {
+        visitMap: true,
+        winningFood: cuisine,
+      };
+      return newState;
+    });
+  };
 
   render() {
     return (
       <div className="App">
         <Header />
-        {!this.state.beginButtonClicked ? (
+        {this.state.visitMap ? (
+          <>
+            <ResultsMap
+              winner={this.state.winningFood}
+              resetOptions={this.resetOptions}
+            />
+          </>
+        ) : !this.state.beginButtonClicked ? (
           <>
             <Selections
               addToSelected={this.addToSelected}
@@ -97,6 +112,7 @@ export default class App extends Component {
             <Randomizer
               options={this.state.selected}
               resetOptions={this.resetOptions}
+              goToMap={this.goToMap}
             />
           </>
         )}
